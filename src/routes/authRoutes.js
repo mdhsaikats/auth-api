@@ -5,6 +5,5 @@ import { register, login } from '../handler/authHandler.js';
 import userName from '../handler/userHandler.js';
 router.post("/register", register);
 router.post("/login", login);
-router.get("/profile", userName);
 
 export default router;

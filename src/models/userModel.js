@@ -29,4 +29,11 @@ async function verifyUser(email) {
     return result.rows[0];
 }
 
-export { createUser, verifyEmail, verifyUser };
+async function getUserProfile(user_id) {
+    const query = `SELECT name , email , created_at FROM users WHERE user_id = $1`;
+    const values = [user_id];
+    const result = await db.query(query,values);
+    return result.rows[0];
+}
+
+export { createUser, verifyEmail, verifyUser,getUserProfile };
