@@ -1,7 +1,9 @@
 import { validateToken } from "../utils/jwt.js";
-function authMiddleware(req, res, next) {
+
+async function authMiddleware(req, res, next) {
     try {
         const authHeader = req.headers.authorization;
+
         if (!authHeader || !authHeader.startsWith("Bearer ")) {
             return res.status(401).json({
                 message: "Authentication required"
@@ -9,12 +11,15 @@ function authMiddleware(req, res, next) {
         }
 
         const token = authHeader.split(" ")[1];
-        const decoded = validateToken(token);
+
+        const decoded = await validateToken(token);
+
         if (!decoded) {
             return res.status(401).json({
                 message: "Invalid or expired token"
             });
         }
+
         req.user = decoded;
 
         next();

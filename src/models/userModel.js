@@ -30,7 +30,7 @@ async function verifyUser(email) {
 }
 
 async function getUserProfile(user_id) {
-    const query = `SELECT name , email , created_at FROM users WHERE user_id = $1`;
+    const query = `SELECT name , email , created_at FROM users WHERE id = $1`;
     const values = [user_id];
     const result = await db.query(query,values);
     return result.rows[0];
