@@ -36,4 +36,16 @@ async function getUserProfile(user_id) {
     return result.rows[0];
 }
 
-export { createUser, verifyEmail, verifyUser,getUserProfile };
+async function updateUserProfile(user_id, name, email) {
+    const query = `
+        UPDATE users
+        SET name = $1, email = $2
+        WHERE id = $3
+        RETURNING id, name, email
+    `;
+    const values = [name, email, user_id];
+    const result = await db.query(query, values);
+    return result.rows[0];
+}
+
+export { createUser, verifyEmail, verifyUser,getUserProfile,updateUserProfile };

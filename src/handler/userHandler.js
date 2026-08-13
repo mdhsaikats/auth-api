@@ -1,4 +1,4 @@
-import { getUserProfile } from '../models/userModel.js'
+import { getUserProfile,updateUserProfile } from '../models/userModel.js'
 
 async function userName(req, res, next) {
     try {
@@ -22,4 +22,25 @@ async function userName(req, res, next) {
     }
 }
 
-export default userName;
+async function updateUserProfiel(req,res,next) {
+    try{
+        const { name, email } = req.body;
+        const userId = req.user.userId;
+        const user = await updateUserProfile(userId,name,email)
+        if (!user){
+            res.status(404).json({
+                success:false,
+                message: "failed to update the user data"
+            });
+        }
+        res.status(200).json({
+            success:true,
+            message:"User data updated sucessfuly",
+            data: user
+        });
+    }catch(error){
+        next(error);
+    }
+}
+
+export {userName,updateUserProfiel};
